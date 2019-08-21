@@ -63,6 +63,22 @@ class Carousel extends Gestures {
                 global.expect(cardText).toContain(word));
     }
 
+    getNthCardText (nthCard) {
+        this.waitForIsDisplayed();
+
+        const cards = $$(SELECTORS.CARD);
+        driver.waitUntil(
+            () => cards.length > 0,
+            DEFAULT_TIMEOUT,
+            `Expected to have more than 0 cards withing ${DEFAULT_TIMEOUT} milliseconds`,
+        );
+
+        const cardNumber = (nthCard === 'first' || cards.length === 1) ? 0 : 1;
+        const cardText = getTextOfElement(cards[cardNumber]).replace(/(?:\r\n|\r|\n)/g, ' ').toLowerCase();
+
+        return cardText;
+    }
+
     /**
      * Swipe the carousel to the LEFT (from right to left)
      */
