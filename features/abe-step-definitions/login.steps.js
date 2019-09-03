@@ -1,7 +1,5 @@
-import WebViewScreen from '../../tests/screenobjects/webview.screen';
 import NativeAlert from '../../tests/helpers/NativeAlert';
 import { platform } from 'os';
-import { sign } from 'crypto';
 const { Given, When, Then } = require('cucumber');
 const { expect } = require('chai');
 
@@ -18,8 +16,7 @@ Given('I submit my Togo ID', function () {
 // WHEN
 //
 When('I supply the automation user credentials', function () {
-    if(platform == 'android')
-    {
+    if (platform === 'android') {
         // This function has only been tested on Android and may not work on iOS
         // const views = WebViewScreen.getCurrentContexts();
         // console.log('Vǐews: ' + views);
@@ -40,18 +37,13 @@ When('I supply the automation user credentials', function () {
         console.log('clicking SUBMIT');
         const submit = $('//*[@class="android.widget.Button"]');
         submit.click();
-    }
-    else
-    {
+    } else {
         const signIn = $('~Sign in');
         const iAgreeButton = $('~I agree');
-        if (iAgreeButton.isExisting() == true)
-        {
+        if (iAgreeButton.isExisting() === true) {
             console.log(iAgreeButton.isExisting());
             iAgreeButton.click();
-        }
-        else
-        {
+        } else {
             signIn.waitForExist(20000);
         }
 
@@ -69,8 +61,7 @@ When('I supply the automation user credentials', function () {
 });
 
 When('I logout from the app', function () {
-    if(platform == 'android')
-    {
+    if (platform === 'android') {
         // Goto the hamburger menu
         console.log('Clicking on hamburger menu');
         $('~test_hamburger').click();
@@ -90,21 +81,19 @@ When('I logout from the app', function () {
         // For the following to work I think we need to modify NativeAlert.text()
         // console.log('Modal text: ' + NativeAlert.text());
         NativeAlert.pressButton('Sign Out');
-    }
-    else
-    {
+    } else {
         // Goto the hamburger menu
         console.log('Clicking on hamburger menu');
         $('(//*[@name="test_hamburger"])[6]').click();
-        
+
         // Click on the Account link
         console.log('Clicking on Account link');
         $('//*[@name="drawer_item_Account"]').click();
-        
+
         // Click on the Sign out Button
         console.log('Clicking on Sign out link');
         $('//*[@name="sign_out"]').click();
-        
+
         // Dismiss the modal
         console.log('Clicking on SIGN OUT to dismiss modal');
         NativeAlert.pressButton('Sign out');
@@ -115,14 +104,11 @@ When('I logout from the app', function () {
 // THEN
 //
 Then('I am taken to the dashboard', function () {
-    if (platform == 'android')
-    {
+    if (platform === 'android') {
         console.log('Assert for dashboard elements');
         // Wait for the hamburger menu
         $('~test_hamburger').waitForExist(20000);
-    }
-    else
-    {
+    } else {
         console.log('Assert for dashboard elements');
         // Wait for the hamburger menu
         $('(//*[@name="test_hamburger"])[6]').waitForExist(20000);
@@ -130,14 +116,11 @@ Then('I am taken to the dashboard', function () {
 });
 
 Then(/^my default vehicle is "(.*)"$/, function (vehicleType) {
-    if (platform == 'android')
-    {
+    if (platform === 'android') {
         browser.pause(3000);
         const myDefaultVehicle = $('~Image Caption Title').getText();
         expect(myDefaultVehicle).to.equal(vehicleType);
-    }
-    else
-    {
+    } else {
         browser.pause(3000);
         const defaultVehicle = $('~Image Caption Title').getText();
         expect(defaultVehicle).to.equal(vehicleType);
