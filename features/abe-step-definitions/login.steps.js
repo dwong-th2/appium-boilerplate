@@ -38,7 +38,7 @@ When('I supply the automation user credentials', function () {
         const submit = $('//*[@class="android.widget.Button"]');
         submit.click();
     } else {
-        const signIn = $('~Sign in');
+        const signIn = $('//XCUIElementTypeButton[@name="Sign in"]');
         const iAgreeButton = $('~I agree');
         if (iAgreeButton.isExisting() === true) {
             console.log(iAgreeButton.isExisting());
@@ -48,15 +48,20 @@ When('I supply the automation user credentials', function () {
         }
 
         console.log('entering email id');
-        const userName = $('//*[@name="Sign in to your Togo ID"]/XCUIElementTypeTextField');
-        userName.setValue('michael.wong+23@th2.com');
+        const userName = $('//XCUIElementTypeOther[@name="Togo Identity Server"]/XCUIElementTypeOther[2]/XCUIElementTypeOther[1]/XCUIElementTypeTextField');
+        userName.setValue('michael.wong+test@th2.com');
         // Password
         console.log('entering password');
-        const pass = $('//*[@name="Sign in to your Togo ID"]/XCUIElementTypeSecureTextField');
+        const pass = $('//XCUIElementTypeOther[@name="Togo Identity Server"]/XCUIElementTypeOther[2]/XCUIElementTypeOther[2]/XCUIElementTypeSecureTextField');
         pass.setValue('123test123');
         // Submit
         console.log('clicking SUBMIT');
-        signIn.click();
+        const signInButton = $('//XCUIElementTypeButton[@name="Sign in"]');
+        signInButton.click();
+        // Allow Access
+        const allowAccessButton = $('~Allow access');
+        allowAccessButton.waitForExist(20000);
+        allowAccessButton.click();
     }
 });
 
@@ -115,7 +120,7 @@ Then('I am taken to the dashboard', function () {
     }
 });
 
-Then(/^my default vehicle is "(.*)"$/, function (vehicleType) {
+Then('my default vehicle is {string}', function (vehicleType) {
     if (platform === 'android') {
         browser.pause(3000);
         const myDefaultVehicle = $('~Image Caption Title').getText();

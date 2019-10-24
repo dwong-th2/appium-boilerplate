@@ -23,8 +23,9 @@ exports.config = {
         profile: [], // <string[]> (name) specify the profile to use
         strict: false, // <boolean> fail if there are any undefined or pending steps
         tags: [], // <string[]> (expression) only execute the features or scenarios with tags matching the expression
-        timeout: 60000, // <number> timeout for step definitions
+        timeout: 90000, // <number> timeout for step definitions
         ignoreUndefinedDefinitions: false, // <boolean> Enable this config to treat undefined definitions as warnings.
+        keepAlive: false,
     },
     sync: true,
     logLevel: 'silent',
