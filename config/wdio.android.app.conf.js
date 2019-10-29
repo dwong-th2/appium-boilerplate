@@ -5,7 +5,7 @@ const { config } = require('./wdio.shared.conf');
 // Specs
 // ============
 config.specs = [
-    './tests/specs/**/app*.spec.js',
+    './features/abe-app/*.feature',
 ];
 
 // ============
@@ -28,7 +28,10 @@ config.capabilities = [
         // https://github.com/appium/appium/releases/tag/v1.13.0
         'appium:automationName': 'UiAutomator2',
         // The path to the app
-        'appium:app': join(process.cwd(), './apps/Android-NativeDemoApp-0.2.1.apk'),
+        'appium:app': join(process.cwd(), './apps/app-debug.apk'),
+        // Use this path after merging with abe-app code so we can just build and test    
+        //'appium:app': join(process.cwd(), '/android/app/build/outputs/apk/debug/app-debug.apk'),
+
         // Read the reset strategies very well, they differ per platform, see
         // http://appium.io/docs/en/writing-running-appium/other/reset-strategies/
         'appium:noReset': true,

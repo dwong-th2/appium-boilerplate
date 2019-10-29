@@ -34,6 +34,7 @@ class NativeAlert {
         const buttonSelector = driver.isAndroid
             ? SELECTORS.ANDROID.ALERT_BUTTON.replace(/{BUTTON_TEXT}/, selector.toUpperCase())
             : `~${selector}`;
+        console.log('clicking ['+selector+'] alert button');
         $(buttonSelector).click();
     }
 

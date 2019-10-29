@@ -29,6 +29,8 @@ config.capabilities = [
         'appium:automationName': 'XCUITest',
         // The path to the app
         'appium:app': join(process.cwd(), './apps/abeApp.app.zip'),
+        // Use this path after merging with abe-app code so we can just build and test    
+        //'appium:app': join(process.cwd(), '/ios/build/abeApp/Build/Products/Debug-iphonesimulator/abeApp.app'),
         // Read the reset strategies very well, they differ per platform, see
         // http://appium.io/docs/en/writing-running-appium/other/reset-strategies/
         'appium:noReset': true,
