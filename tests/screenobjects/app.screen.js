@@ -14,4 +14,14 @@ export default class AppScreen {
     waitForIsShown (isShown = true) {
         return $(this.selector).waitForDisplayed(DEFAULT_TIMEOUT, !isShown);
     }
+
+    /**
+     * Check if the screen is visible
+     *
+     * @return {boolean}
+     */
+    isDisplayed () {
+        return $(this.selector).isDisplayed();
+    }
+
 }
