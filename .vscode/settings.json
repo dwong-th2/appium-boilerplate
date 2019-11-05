@@ -1,6 +1,7 @@
     {
         "cucumberautocomplete.steps": [
             "./features/step-definitions/*.steps.js",
+            "./features/abe-step-definitions/*.steps.js",
         ],
         "cucumberautocomplete.syncfeatures": "./features/wdio-test-app/*.feature",
         "cucumberautocomplete.strictGherkinCompletion": true,

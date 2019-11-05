@@ -6,7 +6,7 @@ Feature: Basic login for existing automation user
    Then I am taken to the dashboard
    And my default vehicle is "Airstream Classic"
    When I logout from the app
-   Then I am returned to the Welcome page
+   Then I am returned to the Welcome screen
 
 #    Scenario: Logout
 #    Given I am logged in

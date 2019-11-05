@@ -1,7 +1,7 @@
 import { DEFAULT_TIMEOUT } from '../constants';
-  
+
 export default class AppScreen {
-    constructor (selector) {
+    constructor(selector) {
         this.selector = selector;
     }
 
@@ -11,7 +11,7 @@ export default class AppScreen {
      * @param {boolean} isShown
      * @return {boolean}
      */
-    waitForIsShown (isShown = true) {
+    waitForIsShown(isShown = true) {
         return $(this.selector).waitForDisplayed(DEFAULT_TIMEOUT, !isShown);
     }
 
@@ -20,8 +20,14 @@ export default class AppScreen {
      *
      * @return {boolean}
      */
-    isDisplayed () {
-        return $(this.selector).isDisplayed();
+    isDisplayed() {
+        try {
+            return $(this.selector).isDisplayed();
+        }
+        catch (err) {
+            console.log(err);
+            return false;
+        }
     }
 
 }

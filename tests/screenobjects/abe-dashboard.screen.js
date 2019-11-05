@@ -1,30 +1,38 @@
 import AppScreen from './app.screen';
 
 const SELECTORS = {
-  HAMBURGER_BUTTON: browser.isAndroid ? '~test_hamburger' : '(//XCUIElementTypeOther[@name="test_hamburger"])[6]',
-  VEHICLE_NAME_TEXT: '~Vehicle Display Name'
+  VEHICLE_TITLE_TEXT: '~vehicle-title-text',
+  VEHICLE_SUBTITLE_TEXT: '~vehicle-subtitle-text',
+  START_CHECKLIST_BUTTON: '~Start a checklist',
 };
 
 class DashboardScreen extends AppScreen {
   constructor() {
-    super(SELECTORS.HAMBURGER_BUTTON);
+    super(SELECTORS.START_CHECKLIST_BUTTON);
   }
 
   // =======
   // getters
   // =======
-  get hamburgerButton() {
-    return $(SELECTORS.HAMBURGER_BUTTON);
+  get vehicleTitleText() {
+    return $(SELECTORS.VEHICLE_TITLE_TEXT);
   }
-  get vehicleName() {
-    return $(SELECTORS.VEHICLE_NAME_TEXT);
+  get vehicleSubtitleText() {
+    return $(SELECTORS.VEHICLE_TITLE_TEXT);
+  }
+
+  get startChecklistButton() {
+    return $(SELECTORS.START_CHECKLIST_BUTTON);
   }
 
   // =======
   // methods
   // =======
   getVehicleName(){
-    return this.vehicleName.getText();
+    return this.vehicleTitleText.getText();
+  }
+  getVehicleSubtitle(){
+    return this.vehicleSubtitleText.getText();
   }
 }
 
