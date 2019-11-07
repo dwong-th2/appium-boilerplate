@@ -40,6 +40,23 @@ class Gestures {
     }
 
     /**
+     * Check if an element is visible and if not scroll right a portion of the screen to
+     * check if it visible after a x amount of scrolls
+     *
+     * @param {element} element
+     * @param {number} maxScrolls
+     * @param {number} amount
+     */
+    static checkIfDisplayedWithScrollRight (element, maxScrolls, amount = 0) {
+        if ((!element.isExisting() || !element.isDisplayed()) && amount <= maxScrolls) {
+            this.swipeRight(0.85);
+            this.checkIfDisplayedWithScrollRight(element, maxScrolls, amount + 1);
+        } else if (amount > maxScrolls) {
+            throw new Error(`The element '${element}' could not be found or is not visible.`);
+        }
+    }
+
+    /**
      * Swipe down based on a percentage
      *
      * @param {number} percentage from 0 - 1

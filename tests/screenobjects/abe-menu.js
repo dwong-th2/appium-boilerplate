@@ -1,8 +1,6 @@
 import AppScreen from './app.screen';
 import Gestures from '../../tests/helpers/Gestures';
 
-
-
 const SELECTORS = {
   HAMBURGER_BUTTON: '~hamburger-menu',
   VEHICLE_TITLE_TEXT: '~vehicle-title-text',

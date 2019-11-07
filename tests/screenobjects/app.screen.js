@@ -25,7 +25,6 @@ export default class AppScreen {
             return $(this.selector).isDisplayed();
         }
         catch (err) {
-            console.log(err);
             return false;
         }
     }
