@@ -9,6 +9,7 @@
     "ios.app": "./node_modules/.bin/wdio ./config/wdio.ios.app.conf.js",
     "ios.sauce.rdc.app": "./node_modules/.bin/wdio ./config/saucelabs/wdio.ios.rdc.app.conf.js",
     "ios.browser": "./node_modules/.bin/wdio ./config/wdio.ios.browser.conf.js",
+    "test.appium": "./node_modules/.bin/wdio",
     "lint": "eslint config tests"
   },
   "repository": {

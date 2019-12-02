@@ -14,8 +14,13 @@ class NativeAlert {
      * Wait for the alert to exist
      */
     static waitForIsShown (isShown = true) {
-        const selector = driver.isAndroid ? SELECTORS.ANDROID.ALERT_TITLE : SELECTORS.IOS.ALERT;
+        const selector = driver.isAndroid ? SELECTORS.ANDROID.ALERT_MESSAGE : SELECTORS.IOS.ALERT;
         $(selector).waitForExist(11000, !isShown);
+    }
+
+    static isDisplayed () {
+        const selector = driver.isAndroid ? SELECTORS.ANDROID.ALERT_MESSAGE : SELECTORS.IOS.ALERT;
+        return $(selector).isDisplayed();
     }
 
     /**
@@ -34,7 +39,7 @@ class NativeAlert {
         const buttonSelector = driver.isAndroid
             ? SELECTORS.ANDROID.ALERT_BUTTON.replace(/{BUTTON_TEXT}/, selector.toUpperCase())
             : `~${selector}`;
-        console.log('clicking ['+selector+'] alert button');
+        console.log('clicking [' + selector + '] alert button');
         $(buttonSelector).click();
     }
 

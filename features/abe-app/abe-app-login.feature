@@ -4,7 +4,7 @@ Feature: Basic login for existing automation user
    Given I submit my Togo ID
    When I supply the automation user credentials
    Then I am taken to the dashboard
-   And my default vehicle is "Airstream Classic"
+   And my default vehicle is "Winnebago Adventurer"
    When I logout from the app
    Then I am returned to the Welcome screen
 

@@ -7,12 +7,12 @@ Feature: Basic navigation of the side menu
    Given I am on the dashboard
    When I open the menu
    Then the side menu displays
-   And the vehicle name is "Airstream Classic"
+   And the vehicle name is "Winnebago Adventurer"
    When I close the side menu
    Then I am returned to the dashboard 
 
-   Scenario: Navigate to Explore
-   Given I am on the dashboard
+  # Scenario: Navigate to Explore
+  # Given I am on the dashboard
   #  When I navigate to the explore function
   #  Then the explore screen is displayed
   #  When I tap the back button
