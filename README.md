@@ -108,3 +108,32 @@ See [FAQ](./docs/FAQ.md)
 
 ## Tips and Tricks
 See [Tips and Tricks](./docs/TIPS_TRICKS.md)
+
+---
+## TOGO Updates
+### Running the tests:
+> `yarn test.appium.ios`
+
+> `yarn test.appium.android`
+
+This will run all of the ***\*.feature*** files using a default device configuration.
+|     |                                 |
+| --- | ------------------------------- |
+| iOS | iPhone 11 Pro Max with iOS 13.0 |
+| Android | Pixel 2 with Android 8.1 |
+
+<br>
+
+You can override the default device configuration by using the `TOGO_TEST_DEVICE` and `TOGO_TEST_OS_VERSION` environment variables.
+> `TOGO_TEST_DEVICE="iPhone 8 Plus" TOGO_TEST_OS_VERSION=12.2 yarn test.appium.ios`
+
+> `TOGO_TEST_DEVICE="Nexus 4 API 25" TOGO_TEST_OS_VERSION=7.1.1 yarn test.appium.android`
+
+<br>
+
+You can also run a subset of tests using the `TOGO_TEST_TAGS` envirnment variable to specify the cucumber tags
+> `TOGO_TEST_TAGS="@smoke and @regression" yarn test.appium.ios`
+
+> `TOGO_TEST_TAGS="@wip" yarn test.appium.android`
+
+

@@ -1,5 +1,11 @@
 import { DEFAULT_TIMEOUT } from '../constants';
 
+const SELECTORS = {
+    LOADING_INDICATOR:
+    browser.isAndroid ? '//android.widget.ProgressBar'
+        : '//XCUIElementTypeActivityIndicator[@name="In progress"]',
+};
+
 export default class AppScreen {
     /**
      * Set a selector for the screen
@@ -37,5 +43,9 @@ export default class AppScreen {
         } catch (err) {
             return false;
         }
+    }
+
+    waitForScreenToLoad () {
+        $(SELECTORS.LOADING_INDICATOR).waitForExist(10000, true);
     }
 }

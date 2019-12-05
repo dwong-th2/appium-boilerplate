@@ -38,10 +38,12 @@ class DashboardScreen extends AppScreen {
         // may have multiple selectors on iOS
         return $$(SELECTORS.VEHICLE_TITLE_TEXT);
     }
+
     get vehicleSubtitleText () {
         // may have multiple selectors on iOS
         return $$(SELECTORS.VEHICLE_TITLE_TEXT);
     }
+
     get startChecklistButton () {
         return $(SELECTORS.START_CHECKLIST_BUTTON);
     }
@@ -93,11 +95,16 @@ class DashboardScreen extends AppScreen {
         return $$(SELECTORS.CHECKLIST_BUTTON);
     }
 
+    get menuButton () {
+        return $(SELECTORS.HAMBURGER_BUTTON);
+    }
+
     // =======
     // methods
     // =======
     getVehicleName () {
         if (browser.isAndroid) {
+            this.vehicleTitleText[0].waitForExist();
             return this.vehicleTitleText[0].getText();
         }
         // on iOS the selector matches the dashboard text as well as the menu text
@@ -208,10 +215,10 @@ class DashboardScreen extends AppScreen {
     }
 
     /**
-     * Get's the % complete of a specific checklist 
+     * Get's the % complete of a specific checklist
      *
      * @param {string} checklistName - The checklist name to look for. Note that this can be a partial match.
-     * @return {string} The pct complete for the selected checklist in the format 'nn%'. A console error is 
+     * @return {string} The pct complete for the selected checklist in the format 'nn%'. A console error is
      * printed if the checklist name is not found
      */
     getChecklistPctComplete (checklistName) {
@@ -257,6 +264,28 @@ class DashboardScreen extends AppScreen {
             }
         }
         return false;
+    }
+
+    isAChecklistInProgress () {
+        return !this.startChecklistButton.isDisplayed();
+    }
+
+    waitForChecklistsToLoad () {
+        if (this.isAChecklistInProgress()) {
+            while (this.checklistButtons.length === 0) {
+                browser.pause(500);
+            }
+        }
+    }
+
+    waitForDashboardToFullyLoad () {
+        this.menuButton.waitForDisplayed();
+        console.log("Found vehicle name '" + this.getVehicleName() + "'");
+
+        this.waitForChecklistsToLoad();
+
+        // TODO: Wait for RV Living to load
+        // TODO: Wait for "allow location" or nearby places and nearby service centers to load
     }
 }
 

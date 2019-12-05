@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import LoginScreen from '../../tests/screenobjects/abe-login.screen';
 import WelcomeScreen from '../../tests/screenobjects/abe-welcome.screen';
 import DashboardScreen from '../../tests/screenobjects/abe-dashboard.screen';
@@ -71,5 +72,5 @@ Then('my default vehicle is {string}', function (expectedVehicleName) {
 });
 
 Then('I am returned to the Welcome screen', function () {
-    expect(WelcomeScreen.waitForIsShown(), 'Are we on the welcome screen?');
+    expect(WelcomeScreen.waitForIsShown(), 'Are we on the welcome screen?').to.be.true;
 });

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import DashboardScreen from '../../tests/screenobjects/abe-dashboard.screen';
 
 const { Given, When, Then } = require('cucumber');
@@ -5,7 +6,7 @@ const { expect } = require('chai');
 
 // GIVEN //
 Given('I am on the dashboard', function () {
-    DashboardScreen.waitForIsShown();
+    DashboardScreen.waitForDashboardToFullyLoad();
 });
 
 // WHEN //
@@ -24,19 +25,20 @@ When('I tap checklist {string}', function (checklistName) {
 
 // THEN //
 Then('I am taken to the dashboard', function () {
-    expect(DashboardScreen.waitForIsShown(), 'Are we on the dashboard screen?');
+    expect(DashboardScreen.waitForIsShown(), 'Are we on the dashboard screen?').to.be.true;
 });
 
 Then('I am returned to the dashboard', function () {
-    expect(DashboardScreen.waitForIsShown(), 'Are we on the dashboard screen?');
+    expect(DashboardScreen.waitForIsShown(), 'Are we on the dashboard screen?').to.be.true;
 });
 
 Then('the dashboard shows checklist {string} as {string} complete', function (checklistName, expPctComplete) {
+    DashboardScreen.waitForChecklistsToLoad();
     var actPctComplete = DashboardScreen.getChecklistPctComplete(checklistName);
     expect(actPctComplete).to.equal(expPctComplete);
 });
 
 Then('the dashboard does not show any checklists in progress', function () {
-    DashboardScreen.waitForIsShown();
-    expect(DashboardScreen.startChecklistButton.waitForExist());
+    DashboardScreen.waitForChecklistsToLoad();
+    expect(DashboardScreen.isAChecklistInProgress()).to.be.false;
 });

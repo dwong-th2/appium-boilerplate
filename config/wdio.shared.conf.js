@@ -5,11 +5,6 @@ exports.config = {
     // ====================
     runner: 'local',
     framework: 'cucumber',
-    // jasmineNodeOpts: {
-    //     // Updated the timeout to 30 seconds due to possible longer appium calls
-    //     // When using XPATH
-    //     defaultTimeoutInterval: 90000,
-    // },
     cucumberOpts: {
         require: ['./features/abe-step-definitions/*.steps.js'], // <string[]> (file/dir) require files before executing features
         backtrace: false, // <boolean> show full backtrace for errors

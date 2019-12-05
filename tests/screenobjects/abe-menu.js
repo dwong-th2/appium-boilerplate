@@ -22,48 +22,62 @@ export class SideMenu extends AppScreen {
     constructor () {
         super(SELECTORS.HAMBURGER_BUTTON);
     }
+
     // =======
     // getters
     // =======
     get hamburgerButton () {
         return $(SELECTORS.HAMBURGER_BUTTON);
     }
+
     get vehicleText () {
         return $$(SELECTORS.VEHICLE_TITLE_TEXT);
     }
+
     get vehicleSubtitleText () {
         return $$(SELECTORS.VEHICHLE_SUBTITLE_TEXT);
     }
+
     get changeVehicleButton () {
         return $(SELECTORS.CHANGE_VEHICLE_BUTTON);
     }
+
     get editVehicleButton () {
         return $(SELECTORS.EDIT_VEHICLE_BUTTON);
     }
+
     get dashboardButton () {
         return $(SELECTORS.DASHBOARD_BUTTON);
     }
+
     get exploreButton () {
         return $(SELECTORS.EXPLORE_BUTTON);
     }
+
     get maintenanceButton () {
         return $(SELECTORS.MAINTENANCE_BUTTON);
     }
+
     get checklistsButton () {
         return $(SELECTORS.CHECKLISTS_BUTTON);
     }
+
     get helpSupportButton () {
         return $(SELECTORS.HELP_SUPPORT_BUTTON);
     }
+
     get tripPlanningButton () {
         return $(SELECTORS.TRIP_PLANNING_BUTTON);
     }
+
     get accountButton () {
         return $(SELECTORS.ACCOUNT_BUTTON);
     }
+
     get howtoLibraryButton () {
         return $(SELECTORS.HOWTO_LIBRARY_BUTTON);
     }
+
     get closeButton () {
         return $(SELECTORS.MENU_CLOSE_BUTTON);
     }
