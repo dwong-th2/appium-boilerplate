@@ -2,7 +2,7 @@ const { join } = require('path');
 const { config } = require('./wdio.shared.conf');
 
 const deviceName = process.env.TOGO_TEST_DEVICE || 'iPhone 11 Pro Max';
-const platformVersion = process.env.TOGO_TEST_OS_VERSION || '13.0';
+const platformVersion = process.env.TOGO_TEST_OS_VERSION || '13.2';
 const appName = process.env.TOGO_TEST_APP || join(process.cwd(), '/ios/build/abeApp/Build/Products/Debug-iphonesimulator/abeApp.app');
 const testTags = process.env.TOGO_TEST_TAGS || '';
 
@@ -37,7 +37,7 @@ config.capabilities = [
         // https://github.com/appium/appium/releases/tag/v1.13.0
         'appium:automationName': 'XCUITest',
         // The path to the app
-        'appium:app': join(process.cwd(), './apps/abeApp.app.zip'),
+        'appium:app': join(process.cwd(), './apps/abeApp.zip'),
         // Use this path after merging with abe-app code so we can just build and test    
         //'appium:app': appName,
         // Read the reset strategies very well, they differ per platform, see
