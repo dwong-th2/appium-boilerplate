@@ -35,7 +35,24 @@ class Gestures {
             this.swipeUp(0.85);
             this.checkIfDisplayedWithScrollDown(element, maxScrolls, amount + 1);
         } else if (amount > maxScrolls) {
-            throw new Error(`The element '${element}' could not be found or is not visible.`);
+            throw new Error(`The element '${element.selector}' could not be found or is not visible.`);
+        }
+    }
+
+    /**
+     * Check if an element is visible and if not scroll up a portion of the screen to
+     * check if it visible after a x amount of scrolls
+     *
+     * @param {element} element
+     * @param {number} maxScrolls
+     * @param {number} amount
+     */
+    static checkIfDisplayedWithScrollUp (element, maxScrolls, amount = 0) {
+        if ((!element.isExisting() || !element.isDisplayed()) && amount <= maxScrolls) {
+            this.swipeDown();
+            this.checkIfDisplayedWithScrollUp(element, maxScrolls, amount + 1);
+        } else if (amount > maxScrolls) {
+            throw new Error(`The element '${element.selector}' could not be found or is not visible.`);
         }
     }
 
@@ -52,7 +69,7 @@ class Gestures {
             this.swipeRight(0.85);
             this.checkIfDisplayedWithScrollRight(element, maxScrolls, amount + 1);
         } else if (amount > maxScrolls) {
-            throw new Error(`The element '${element}' could not be found or is not visible.`);
+            throw new Error(`The element '${element.selector}' could not be found or is not visible.`);
         }
     }
 
@@ -62,6 +79,7 @@ class Gestures {
      * @param {number} percentage from 0 - 1
      */
     static swipeDown (percentage = 1) {
+        console.log('Swipe Down');
         this.swipeOnPercentage(
             this._calculateXY(SWIPE_DIRECTION.down.start, percentage),
             this._calculateXY(SWIPE_DIRECTION.down.end, percentage),
@@ -74,6 +92,7 @@ class Gestures {
      * @param {number} percentage from 0 - 1
      */
     static swipeUp (percentage = 1) {
+        console.log('Swipe Up');
         this.swipeOnPercentage(
             this._calculateXY(SWIPE_DIRECTION.up.start, percentage),
             this._calculateXY(SWIPE_DIRECTION.up.end, percentage),
@@ -86,6 +105,7 @@ class Gestures {
      * @param {number} percentage from 0 - 1
      */
     static swipeLeft (percentage = 1) {
+        console.log('Swipe Left');
         this.swipeOnPercentage(
             this._calculateXY(SWIPE_DIRECTION.left.start, percentage),
             this._calculateXY(SWIPE_DIRECTION.left.end, percentage),
@@ -98,6 +118,7 @@ class Gestures {
      * @param {number} percentage from 0 - 1
      */
     static swipeRight (percentage = 1) {
+        console.log('Swipe Right');
         this.swipeOnPercentage(
             this._calculateXY(SWIPE_DIRECTION.right.start, percentage),
             this._calculateXY(SWIPE_DIRECTION.right.end, percentage),

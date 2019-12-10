@@ -45,8 +45,26 @@ export function getTextOfElement (element, isXpath = false) {
  *
  * @param {number} start    the time in milliseconds
  * @param {number} end      the time in milliseconds
- */
+*/
 export function timeDifference (start, end) {
     const elapsed = (end - start) / 1000;
     console.log('elapsed = ', elapsed, ' seconds');
+}
+
+/**
+ * Remove duplicate values from an array
+ *
+ * @param {array} array    the array to process
+ *
+ * @return {array}         a new array with duplicates removed
+ */
+export function arrayUnique (array) {
+    var a = array.concat();
+    for (var i = 0; i < a.length; ++i) {
+        for (var j = i + 1; j < a.length; ++j) {
+            if (a[i] === a[j]) { a.splice(j--, 1); }
+        }
+    }
+
+    return a;
 }

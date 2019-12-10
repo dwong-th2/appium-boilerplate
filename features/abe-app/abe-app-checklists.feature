@@ -4,7 +4,7 @@ Feature: Basic navigation checklists
    Given Im logged in
 
    @failing @TOGO-2160
-   Scenario: Start and complete a checklist
+   Scenario: Start and complete an existing checklist
    Given I am on the dashboard
    When I start a checklist
    Then the Checklists list displays
@@ -17,7 +17,7 @@ Feature: Basic navigation checklists
    And complete the checklist
    Then the dashboard does not show any checklists in progress
 
-   Scenario: create and delete an empty checklist
+   Scenario: C12312729 Create and delete an empty checklist
    Given I am on the dashboard
    When I go to checklists
    And create a checklist named "New Checklist"

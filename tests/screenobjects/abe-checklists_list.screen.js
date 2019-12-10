@@ -1,4 +1,5 @@
 import AppScreen from './app.screen';
+import Gestures from '../../tests/helpers/Gestures';
 import { getTextOfElement } from '../helpers/utils';
 
 const SELECTORS = {
@@ -9,6 +10,9 @@ const SELECTORS = {
     CREATE_CHECKLIST_FAB: '~create-checklist-fab',
     CREATE_CHECKLIST_NAME_TEXTFIELD: '~name-your-checklist-input',
     CREATE_CHECKLIST_BUTTON: '~create-checklist-button',
+    BACK_BUTTON:
+    browser.isAndroid ? '//android.view.ViewGroup/android.view.ViewGroup/android.widget.ImageView'
+        : '~header-back',
 };
 
 class CheckistsListScreen extends AppScreen {
@@ -47,45 +51,106 @@ class CheckistsListScreen extends AppScreen {
         return $(SELECTORS.CREATE_CHECKLIST_BUTTON);
     }
 
+    get backButton () {
+        return $(SELECTORS.BACK_BUTTON);
+    }
+
     // =======
     // methods
     // =======
+    isBackButtonDisplayed () {
+        return this.backButton.isDisplayed();
+    }
+
+    clickBackButton () {
+        if (this.isBackButtonDisplayed()) {
+            console.log('Clicking back button');
+            this.backButton.click();
+            browser.pause(500);
+        }
+    }
+
     getChecklistsList () {
-        this.waitForListToLoad();
         var returnList = [];
+        this.waitForListToLoad();
+
         this.checklistItems.forEach(function (el) {
-            returnList.push(getTextOfElement(el));
+            var elementText = getTextOfElement(el);
+
+            if (elementText !== '') {
+                returnList.push(elementText);
+            }
         });
+
+        if (browser.isAndroid) {
+            // Android only returns the visible objects so we need to keep swiping up
+            // and getting more elements until we see the premium banner.
+            // Warning: if the list contains duplicate values then only the unique values will be returned.
+            // Note: Before using this method, you should reload the checklists list screen or make sure the
+            //       list is scrolled to the top
+            var firstElementText = returnList[0];
+
+            for (var x = 1; x < 20; x++) {
+                if (this.premiumBanner.isExisting()) {
+                    break;
+                }
+                Gestures.swipeUp(0.85);
+                this.checklistItems.forEach(function (el) {
+                    var elementText = getTextOfElement(el);
+                    if (elementText !== '' && !returnList.includes(elementText)) {
+                        returnList.push(elementText);
+                    }
+                });
+            }
+
+            // Scroll back up to the top of the list
+            const firstElement = $(this.getSelectorForText(firstElementText));
+            Gestures.checkIfDisplayedWithScrollUp(firstElement, 4);
+        }
+
         console.log('Found checklists:' + returnList);
+        return returnList;
+    }
+
+    getChecklistsInProgressList () {
+        var theList = this.getChecklistsList();
+        var returnList = [];
+        for (var x = 0; x < theList.length; x++) {
+            if (theList[x].includes('%')) {
+                var item = theList[x].replace(/ \d+ %/g, '');
+                returnList.push(item);
+            }
+        }
+        console.log('Found checklists in progress:' + returnList);
         return returnList;
     }
 
     selectChecklistByName (checklistToSelect) {
     // click a checklist by it's name
-        var listItems = this.getChecklistsList();
-        for (var x = 0; x < listItems.length; x++) {
-            if (listItems[x].includes(checklistToSelect)) {
-                console.log("Selecting checklist '" + checklistToSelect + "'");
-                this.checklistItems[x].click();
-                return;
-            }
-        }
-        // TODO: Android only returns the visible objects so we'll need to add some
-        //      logic to scroll the list and check again
-        console.error('Checklist ' + checklistToSelect + ' not found!');
+        const selector = this.getSelectorForText(checklistToSelect);
+        const element = $(selector);
+        Gestures.checkIfDisplayedWithScrollDown(element, 3);
+        console.log("Selecting checklist '" + checklistToSelect + "'");
+        element.click();
+    }
+
+    getSelectorForText (text) {
+        const selector = browser.isAndroid ? '//android.view.ViewGroup[@content-desc="list-item"]/android.widget.TextView[contains(@text,"' + text + '")]'
+            : '//XCUIElementTypeOther[contains(@label,"' + text + '") and @name="list-item"]';
+        return selector;
     }
 
     doesPremiumBannerExist () {
-
+        // TODO
     }
 
     waitForListToLoad () {
-        for (var x = 1; x <= 10; x++) {
-            if (this.checklistItems.length === 0) {
-                browser.pause(500);
-            } else {
+        this.waitForScreenToLoad();
+        for (var x = 1; x <= 20; x++) {
+            if (this.checklistItems.length > 0) {
                 break;
             }
+            browser.pause(500);
         }
     }
 
@@ -118,9 +183,15 @@ class CheckistsListScreen extends AppScreen {
                 return true;
             }
         }
-        // TODO: Android only returns the visible objects so we'll need to add some
-        //      logic to scroll the list and check again
         return false;
+    }
+
+    getTogoChecklists () {
+        var togoChecklists = ['Campsite arrival', 'Dewinterization', 'Home departure', 'Packing for camping',
+            'Packing for camping with kids', 'Pantry packing', 'Parking your motorized RV', 'Campsite departure',
+            'Departure prep'];
+
+        return togoChecklists;
     }
 }
 

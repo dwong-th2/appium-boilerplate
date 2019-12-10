@@ -103,13 +103,21 @@ class DashboardScreen extends AppScreen {
     // methods
     // =======
     getVehicleName () {
-        if (browser.isAndroid) {
-            this.vehicleTitleText[0].waitForExist();
-            return this.vehicleTitleText[0].getText();
+        for (var x = 0; x < 10; x++) {
+            if (this.vehicleTitleText.length > 0) {
+                if (browser.isAndroid) {
+                    this.vehicleTitleText[0].waitForExist();
+                    return this.vehicleTitleText[0].getText();
+                }
+
+                // on iOS the selector matches the dashboard text as well as the menu text
+                // so only return the text from the dashboard
+                if (this.vehicleTitleText.length > 1) {
+                    return this.vehicleTitleText[1].getText();
+                }
+            }
+            browser.pause(1000);
         }
-        // on iOS the selector matches the dashboard text as well as the menu text
-        // so only return the text from the dashboard
-        return this.vehicleTitleText[1].getText();
     }
 
     getVehicleSubtitle () {

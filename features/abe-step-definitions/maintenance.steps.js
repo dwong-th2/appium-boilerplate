@@ -8,9 +8,9 @@ const { expect } = require('chai');
 //
 // GIVEN
 //
-Given('I am on the dashboard', { wrapperOptions: { retry: 2 } }, async function () {
-    DashboardScreen.waitForDashboardElement();
-});
+// Given('I am on the dashboard', { wrapperOptions: { retry: 2 } }, async function () {
+//     DashboardScreen.waitForDashboardElement();
+// });
 
 //
 // WHEN

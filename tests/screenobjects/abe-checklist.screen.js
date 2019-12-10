@@ -115,13 +115,12 @@ class ChecklistScreen extends AppScreen {
     // =======
 
     waitForIsShown (isShown = true) {
-        console.log('overriding');
         return this.editButton.isDisplayed() || this.doneButton.isDisplayed();
     }
 
     clickCompleteChecklistButton () {
         console.log('Clicking [Complete checklist] button');
-        Gestures.checkIfDisplayedWithScrollDown(this.completeChecklistButton, 5);
+        Gestures.checkIfDisplayedWithScrollDown(this.completeChecklistButton, 20);
         this.completeChecklistButton.click();
     }
 
@@ -134,9 +133,6 @@ class ChecklistScreen extends AppScreen {
             item.click();
             browser.pause(2000);
         } catch (err) {
-            // TODO: Android only returns the visible objects so we'll need to add some
-            //       logic to scroll the list and check again
-
             console.error("Unable to find checklist item '" + itemToSelect + "'!");
             console.error(err.message);
         }
@@ -145,7 +141,7 @@ class ChecklistScreen extends AppScreen {
     isTutorialDisplayed () {
         try {
             this.tutorialText.waitForExist(1000);
-            this.tutorialText.waitForDisplayed();
+            this.tutorialText.waitForDisplayed(500);
             return true;
         } catch {
             return false;
@@ -224,9 +220,15 @@ class ChecklistScreen extends AppScreen {
         console.log('Clicking [Edit] button');
         this.editButton.waitForExist(2000);
         this.editButton.click();
+        if (this.isTutorialDisplayed()) {
+            this.closeTutorial();
+        }
     }
 
     clickDeleteChecklistButton () {
+        if (this.isTutorialDisplayed()) {
+            this.closeTutorial();
+        }
         console.log('Clicking [Delete checklist] button');
         Gestures.checkIfDisplayedWithScrollDown(this.deleteChecklistButton, 3);
         this.deleteChecklistButton.click();
@@ -235,6 +237,7 @@ class ChecklistScreen extends AppScreen {
     deleteChecklist () {
         this.clickEditButton();
         this.clickDeleteChecklistButton();
+        browser.pause(1000);
         return this.confirmDeleteChecklist('Delete');
     }
 

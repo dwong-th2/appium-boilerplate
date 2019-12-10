@@ -96,3 +96,9 @@ Then('the checklist list page will contain the checklist {string}', function (ch
 Then('the checklist list page will not contain the checklist {string}', function (checklistName) {
     expect(ChecklistsListScreen.isChecklistInList(checklistName), 'Is the checklist in the list?').to.be.false;
 });
+
+Then('the checklist list page will only contain Togo defined checklists', function () {
+    var expected = ChecklistsListScreen.getTogoChecklists();
+    var actual = ChecklistsListScreen.getChecklistsList();
+    expect(actual.toString, 'Does the checklist list only contain togo checklists?').to.equal(expected.toString);
+});
