@@ -1,12 +1,13 @@
 Feature: Basic login for existing automation user
 
+   @TR(12312862)
    Scenario: Login with existing user
-   Given I submit my Togo ID
-   When I supply the automation user credentials
-   Then I am taken to the dashboard
-   And my default vehicle is "Winnebago Adventurer"
-   When I logout from the app
-   Then I am returned to the Welcome screen
+      Given I submit my Togo ID
+      When I supply the automation user credentials
+      Then I am taken to the dashboard
+         And my default vehicle is "Winnebago Adventurer"
+      When I logout from the app
+      Then I am returned to the Welcome screen
 
 #    Scenario: Logout
 #    Given I am logged in

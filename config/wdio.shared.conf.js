@@ -1,3 +1,8 @@
+require('@babel/register');
+const { testrail } = require('./testrail.conf');
+const Wdio5CucumberTestRailReporter = require('../tests/reporter/wdio-5-testrail-cucumber-reporter').default;
+var fs = require('fs');
+
 exports.config = {
     // ====================
     // Runner and framework
@@ -31,12 +36,24 @@ exports.config = {
     waitforTimeout: 10000,
     connectionRetryTimeout: 90000,
     connectionRetryCount: 3,
-    reporters: [ 'spec' ],
-
+    reporters: ['spec',
+        [Wdio5CucumberTestRailReporter, {
+            logResults: testrail.logResults,
+            domain: testrail.domain,
+            username: testrail.username,
+            password: testrail.password,
+            projectId: testrail.projectId,
+            runName: testrail.runName,
+            includeAll: testrail.includeAll,
+            assignedToId: testrail.assignToId,
+            updateRun: testrail.updateRunId,
+            updatePlan: testrail.updatePlanId,
+        }]
+    ],
     // ====================
     // Appium Configuration
     // ====================
-    services: [ 'appium' ],
+    services: ['appium'],
     appium: {
         // For options see
         // https://github.com/webdriverio/webdriverio/tree/master/packages/wdio-appium-service
@@ -52,7 +69,26 @@ exports.config = {
     // ====================
     // Some hooks
     // ====================
+    onPrepare: function (config, capabilities) {
+        // console.log(' === onPrepare ===');
+        // Delete the testrail runid save file if it exists
+        fs.unlink('testrailRunId.txt', function (err) {
+            if (err) console.log('Testrail runid save file does not exist');
+            else console.log('Testrail runid save file deleted successfully');
+        });
+    },
+
     beforeSession: (config, capabilities, specs) => {
         require('@babel/register');
     },
+
+    onComplete: function (exitCode, config, capabilities, results) {
+        // console.log(' === onComplete ===');
+        // Delete the testrail runid save file if it exists
+        fs.unlink('testrailRunId.txt', function (err) {
+            if (err) console.log('Testrail runid save file does not exist');
+            else console.log('Testrail runid save file deleted successfully');
+        });
+    },
+
 };
