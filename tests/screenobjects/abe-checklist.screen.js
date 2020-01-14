@@ -12,9 +12,7 @@ const SELECTORS = {
     ADD_TASK_BUTTON: '~add-task-button',
     EDIT_BUTTON: '~edit-header-button',
     DONE_BUTTON: '~done-header-button',
-    BACK_BUTTON:
-    browser.isAndroid ? '//android.view.ViewGroup/android.view.ViewGroup/android.widget.ImageView'
-        : '~header-back',
+    BACK_BUTTON: '~header-back-button',
     FEEDBACK_TITLE_TEXT: '~feedback-title-text',
     FEEDBACK_TEXT: 'feedback-text',
     FEEDBACK_THUMBSUP_BUTTON: 'feedback-thumbsup-button',
@@ -23,11 +21,23 @@ const SELECTORS = {
     browser.isAndroid ? '//android.widget.TextView[@content-desc="feedback-title-text"]/../android.view.ViewGroup[1]/android.view.ViewGroup'
         : '//XCUIElementTypeStaticText[@name="feedback-title-text"]/../XCUIElementTypeOther[1]/XCUIElementTypeOther',
     EMPTY_CHECKLIST_TEXT: '~this-checklist-is-empty',
+
+    // tutorial controls
     EDIT_TUTORIAL_TITLE: '~edit-checklists-tutorial-card-title',
     CUSTOMIZE_TUTORIAL_TITLE: '~customize-tasks-tutorial-card-title',
     TUTORIAL_TEXT: '~tutorial-card-text',
     GOT_IT_BUTTON: '~got-it-button',
     NEXT_TIP_BUTTON: '~next-tip-button',
+
+    // add/edit task modal
+    CLOSE_MODAL_BUTTON: '~search-close-button',
+    ADD_TASK_NAME_EDIT: '~add-a-task-edit',
+    SEARCH_RESULTS: '~search-result-text',
+    TASK_NAME_EDIT: '~task-input',
+    TASK_NOTES_EDIT: '~notes-input',
+    ADD_TASK_MODAL_BUTTON: '~add-task-modal-button',
+    SAVE_TASK_MODAL_BUTTON: '~save-task-modal-button',
+    DELETE_TASK_MODAL_BUTTON: '~delete-task-modal-button',
 };
 
 class ChecklistScreen extends AppScreen {
@@ -38,6 +48,38 @@ class ChecklistScreen extends AppScreen {
     // =======
     // getters
     // =======
+    get closeModelButton () {
+        return $(SELECTORS.CLOSE_MODAL_BUTTON);
+    }
+
+    get addTaskNameSearch () {
+        return $(SELECTORS.ADD_TASK_NAME_EDIT);
+    }
+
+    get searchResultsList () {
+        return $$(SELECTORS.SEARCH_RESULTS);
+    }
+
+    get taskNameEdit () {
+        return $(SELECTORS.TASK_NAME_EDIT);
+    }
+
+    get taskNotesEdit () {
+        return $(SELECTORS.TASK_NOTES_EDIT);
+    }
+
+    get addTaskModalButton () {
+        return $(SELECTORS.ADD_TASK_MODAL_BUTTON);
+    }
+
+    get saveTaskModalButton () {
+        return $(SELECTORS.SAVE_TASK_MODAL_BUTTON);
+    }
+
+    get deleteTaskModalButton () {
+        return $(SELECTORS.DELETE_TASK_MODAL_BUTTON);
+    }
+
     get completeChecklistButton () {
         return $(SELECTORS.COMPLETE_CHECKLIST_BUTTON);
     }
@@ -128,6 +170,9 @@ class ChecklistScreen extends AppScreen {
     // click a checklist item by it's name
         var item = $('~' + itemToSelect);
         try {
+            if (browser.isIOS) {
+                Gestures.scrollToTop();
+            }
             console.log("Selecting checklist task '" + itemToSelect + "'");
             Gestures.checkIfDisplayedWithScrollDown(item, 2);
             item.click();
@@ -203,7 +248,7 @@ class ChecklistScreen extends AppScreen {
     }
 
     isChecklistEmpty () {
-        return this.emptyChecklistText.isDisplayed();
+        return this.emptyChecklistText.isExisting();
     }
 
     isChecklistInEditMode () {
@@ -260,6 +305,9 @@ class ChecklistScreen extends AppScreen {
                 if (this.editButton.isExisting() && this.editButton.isDisplayed()) {
                     break;
                 }
+                if (this.addTaskNameSearch.isExisting()) {
+                    break;
+                }
                 if (this.isTutorialDisplayed()) {
                     this.closeTutorial();
                 }
@@ -267,6 +315,46 @@ class ChecklistScreen extends AppScreen {
                 browser.pause(1000);
             }
             browser.pause(1000);
+        }
+    }
+
+    addTask (taskName, taskNotes) {
+        this.addTaskButton.waitForDisplayed();
+        this.addTaskButton.click();
+        this.waitForAddTaskModal();
+        this.addTaskNameSearch.setValue(taskName);
+    }
+
+    waitForAddTaskModal () {
+        return this.addTaskNameSearch.waitForDisplayed(1000);
+    }
+
+    closeTaskModal () {
+        console.log('Clicking the close modal button');
+        this.closeModelButton.click();
+        browser.pause(1000);
+    }
+
+    getTaskSearchResults () {
+        var returnList = [];
+
+        this.searchResultsList.forEach(function (el) {
+            var elementText = getTextOfElement(el);
+
+            if (elementText !== '') {
+                returnList.push(elementText);
+            }
+        });
+    }
+
+    selectTaskFromResults (taskName) {
+        var elements = this.getTaskSearchResults();
+
+        for (var x = 0; x < elements.length; x++) {
+            if (elements[x].includes(taskName)) {
+                this.searchResultsList[x].click();
+                break;
+            }
         }
     }
 }

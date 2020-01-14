@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-expressions */
-import SideMenu from '../../tests/screenobjects/abe-menu';
+import TabBar from '../../tests/screenobjects/abe-tabbar';
+import ChecklistsListScreen from '../../tests/screenobjects/abe-checklists_list.screen';
 
 const { When, Then } = require('cucumber');
 const { expect } = require('chai');
@@ -7,24 +8,37 @@ const { expect } = require('chai');
 // GIVEN //
 
 // WHEN //
-When('I open the menu', function () {
-    SideMenu.openMenu();
+
+When('I click the {string} tabbar button', function (tabbarButton) {
+    switch (tabbarButton) {
+    case 'Home':
+        TabBar.openHome();
+        break;
+    case 'Explore':
+        TabBar.openExplore();
+        break;
+    case 'Checklists':
+        TabBar.openChecklists();
+
+        // hack to get around the screen opening with a checklist in progress
+        // from previous tests
+        if (!ChecklistsListScreen.isDisplayed()) {
+            TabBar.openChecklists();
+        }
+        break;
+    case 'RV Living':
+        TabBar.openRVLiving();
+        break;
+    case 'My RV':
+        TabBar.openMyRV();
+        break;
+    default:
+    }
 });
 
-When('I close the side menu', function () {
-    SideMenu.closeMenu();
+Then('the tabbar is not visible', function () {
+    expect(TabBar.isDisplayed(), 'Is the tabbar nav displayed').to.equal(false);
 });
-
-When('I go to checklists', function () {
-    SideMenu.openChecklists();
-});
-
-// THEN //
-Then('the side menu displays', function () {
-    expect(SideMenu.isMenuOpen(), 'Is the menu open?').to.be.true;
-});
-
-Then('the vehicle name is {string}', function (expectedVehicleName) {
-    const actualVehicleName = SideMenu.getTitleText();
-    expect(actualVehicleName).to.equal(expectedVehicleName);
+Then('the tabbar is visible', function () {
+    expect(TabBar.isDisplayed(), 'Is the tabbar nav displayed').to.equal(true);
 });

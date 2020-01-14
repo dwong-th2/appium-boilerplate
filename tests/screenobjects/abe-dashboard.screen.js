@@ -4,7 +4,7 @@ import Gestures from '../../tests/helpers/Gestures';
 import { getTextOfElement } from '../helpers/utils';
 
 const SELECTORS = {
-    HAMBURGER_BUTTON: '~hamburger-menu',
+    ACCOUNT_BUTTON: '~account-button',
     VEHICLE_TITLE_TEXT: '~vehicle-title-text',
     VEHICLE_SUBTITLE_TEXT: '~vehicle-subtitle-text',
     START_CHECKLIST_BUTTON: '~start-checklist-button',
@@ -28,7 +28,7 @@ const SELECTORS = {
 
 class DashboardScreen extends AppScreen {
     constructor () {
-        super(SELECTORS.HAMBURGER_BUTTON);
+        super(SELECTORS.ACCOUNT_BUTTON);
     }
 
     // =======
@@ -36,12 +36,12 @@ class DashboardScreen extends AppScreen {
     // =======
     get vehicleTitleText () {
         // may have multiple selectors on iOS
-        return $$(SELECTORS.VEHICLE_TITLE_TEXT);
+        return $(SELECTORS.VEHICLE_TITLE_TEXT);
     }
 
     get vehicleSubtitleText () {
         // may have multiple selectors on iOS
-        return $$(SELECTORS.VEHICLE_TITLE_TEXT);
+        return $(SELECTORS.VEHICLE_TITLE_TEXT);
     }
 
     get startChecklistButton () {
@@ -95,38 +95,20 @@ class DashboardScreen extends AppScreen {
         return $$(SELECTORS.CHECKLIST_BUTTON);
     }
 
-    get menuButton () {
-        return $(SELECTORS.HAMBURGER_BUTTON);
+    get accountButton () {
+        return $(SELECTORS.ACCOUNT_BUTTON);
     }
 
     // =======
     // methods
     // =======
     getVehicleName () {
-        for (var x = 0; x < 10; x++) {
-            if (this.vehicleTitleText.length > 0) {
-                if (browser.isAndroid) {
-                    this.vehicleTitleText[0].waitForExist();
-                    return this.vehicleTitleText[0].getText();
-                }
-
-                // on iOS the selector matches the dashboard text as well as the menu text
-                // so only return the text from the dashboard
-                if (this.vehicleTitleText.length > 1) {
-                    return this.vehicleTitleText[1].getText();
-                }
-            }
-            browser.pause(1000);
-        }
+        this.vehicleTitleText.waitForExist();
+        return this.vehicleTitleText.getText();
     }
 
     getVehicleSubtitle () {
-        // on iOS the selector matches the dashboard text as well as the menu text
-        // so only return the text from the dashboard
-        if (browser.isAndroid) {
-            return this.vehicleSubtitleText[0].getText();
-        }
-        return this.vehicleSubtitleText[1].getText();
+        return this.vehicleSubtitleText.getText();
     }
 
     startChecklist () {
@@ -145,6 +127,10 @@ class DashboardScreen extends AppScreen {
 
     addVin () {
         this.addVinButton.click();
+    }
+
+    openAccount () {
+        this.accountButton.click();
     }
 
     allowNotifications () {
@@ -287,9 +273,6 @@ class DashboardScreen extends AppScreen {
     }
 
     waitForDashboardToFullyLoad () {
-        this.menuButton.waitForDisplayed();
-        console.log("Found vehicle name '" + this.getVehicleName() + "'");
-
         this.waitForChecklistsToLoad();
 
         // TODO: Wait for RV Living to load

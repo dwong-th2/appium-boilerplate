@@ -10,14 +10,14 @@ Feature: Cleanup Utilities
   Scenario: Complete all checklists in progress
     Given I am on the dashboard
     When I complete all checklists in progress
-      And I navigate back to the dashboard
+      And I click the "Home" tabbar button
     Then the dashboard does not show any checklists in progress
 
   @util
   Scenario: Delete all user created checklists
     Given I am on the dashboard
     When I delete all user created checklists
-      And I go to checklists
+      And I click the "Checklists" tabbar button
     Then the checklist list page will only contain Togo defined checklists
 
 

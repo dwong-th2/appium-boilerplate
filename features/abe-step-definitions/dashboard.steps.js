@@ -1,12 +1,16 @@
 /* eslint-disable no-unused-expressions */
 import DashboardScreen from '../../tests/screenobjects/abe-dashboard.screen';
+import TabBar from '../../tests/screenobjects/abe-tabbar';
 
 const { Given, When, Then } = require('cucumber');
 const { expect } = require('chai');
 
 // GIVEN //
 Given('I am on the dashboard', function () {
-    DashboardScreen.waitForDashboardToFullyLoad();
+    TabBar.waitForTabBarShown();
+    TabBar.openHome();
+    DashboardScreen.waitForIsShown();
+    //DashboardScreen.waitForDashboardToFullyLoad();
 });
 
 // WHEN //
@@ -24,7 +28,7 @@ When('I tap checklist {string}', function (checklistName) {
 });
 
 // THEN //
-Then('I am taken to the dashboard', function () {
+Then('I am taken to the dashboard screen', function () {
     expect(DashboardScreen.waitForIsShown(), 'Are we on the dashboard screen?').to.be.true;
 });
 

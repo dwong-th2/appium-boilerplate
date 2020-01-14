@@ -19,6 +19,7 @@ When('I select the checklist {string}', function (checklistToSelect) {
 });
 
 When('I complete the task {string}', function (taskToSelect) {
+    ChecklistScreen.waitForChecklistToLoad();
     ChecklistScreen.selectChecklistItemByName(taskToSelect);
 });
 
@@ -33,14 +34,8 @@ When('I tap the back button', function () {
     ChecklistScreen.clickBackButton();
 });
 
-When('I navigate back to the dashboard', function () {
-    for (var x = 0; x < 5; x++) {
-        if (!ChecklistScreen.isBackButtonDisplayed()) {
-            break;
-        } else {
-            ChecklistScreen.clickBackButton();
-        }
-    }
+When('I navigate back to the list', function () {
+    ChecklistScreen.clickBackButton();
 });
 
 When('complete the checklist', function () {
@@ -73,28 +68,30 @@ When('return to the checklist list page', function () {
 
 // THEN //
 Then('the Checklists list displays', function () {
-    expect(ChecklistsListScreen.waitForIsShown(), 'Are we on the checklists list screen?').to.be.true;
+    expect(ChecklistsListScreen.waitForIsShown(), 'Are we on the checklists list screen?').to.equal(true);
 });
 
 Then('the checklist screen displays', function () {
     ChecklistScreen.waitForChecklistToLoad();
-    expect(ChecklistScreen.waitForIsShown(), 'Are we on the checklist screen?').to.be.true;
+    expect(ChecklistScreen.waitForIsShown(), 'Are we on the checklist screen?').to.equal(true);
 });
 
-Then('the checklist {string} will be open in edit mode', function (checklistName) {
-    expect(ChecklistScreen.isChecklistInEditMode(), 'Is the new checklist open in edit mode?').to.be.true;
+Then('the checklist {string} will be open in edit mode with a new task started', function (checklistName) {
+    expect(ChecklistScreen.waitForAddTaskModal(), 'Was a new task started?').to.equal(true);
+    ChecklistScreen.closeTaskModal();
+    expect(ChecklistScreen.isChecklistInEditMode(), 'Is the new checklist open in edit mode?').to.equal(true);
 });
 
 Then('the checklist will be empty', function () {
-    expect(ChecklistScreen.isChecklistEmpty(), 'Is the new checklist empty?').to.be.true;
+    expect(ChecklistScreen.isChecklistEmpty(), 'Is the new checklist empty?').to.equal(true);
 });
 
 Then('the checklist list page will contain the checklist {string}', function (checklistName) {
-    expect(ChecklistsListScreen.isChecklistInList(checklistName), 'Is the checklist in the list?').to.be.true;
+    expect(ChecklistsListScreen.isChecklistInList(checklistName), 'Is the checklist in the list?').to.equal(true);
 });
 
 Then('the checklist list page will not contain the checklist {string}', function (checklistName) {
-    expect(ChecklistsListScreen.isChecklistInList(checklistName), 'Is the checklist in the list?').to.be.false;
+    expect(ChecklistsListScreen.isChecklistInList(checklistName), 'Is the checklist in the list?').to.equal(false);
 });
 
 Then('the checklist list page will only contain Togo defined checklists', function () {
@@ -102,3 +99,13 @@ Then('the checklist list page will only contain Togo defined checklists', functi
     var actual = ChecklistsListScreen.getChecklistsList();
     expect(actual.toString, 'Does the checklist list only contain togo checklists?').to.equal(expected.toString);
 });
+
+Then('I am taken to the Checklists screen', function () {
+    expect(ChecklistsListScreen.waitForIsShown(), 'Are we on the checklists list screen?').to.equal(true);
+});
+
+Then('a new task will be started', function () {
+    expect(ChecklistScreen.waitForAddTaskModal(), 'Was a new task started?').to.equal(true);
+    ChecklistScreen.closeTaskModal();
+});
+

@@ -39,6 +39,11 @@ class Gestures {
         }
     }
 
+    static checkIfDisplayedWithScrollDownAndClick (element, maxScrolls, amount = 0) {
+        this.checkIfDisplayedWithScrollDown(element, maxScrolls, amount);
+        element.click();
+    }
+
     /**
      * Check if an element is visible and if not scroll up a portion of the screen to
      * check if it visible after a x amount of scrolls
@@ -210,6 +215,20 @@ class Gestures {
             x: x * percentage,
             y: y * percentage,
         };
+    }
+
+    /**
+     * Scroll to the top of a list page
+     *
+     * note: this only works for iOS at the moment
+     */
+    static scrollToTop () {
+        if (driver.isAndroid) {
+            // TODO: find a way to automatically scroll to the top
+        } else {
+            console.log('Clicking top status bar');
+            $('//XCUIElementTypeStatusBar').click();
+        }
     }
 }
 

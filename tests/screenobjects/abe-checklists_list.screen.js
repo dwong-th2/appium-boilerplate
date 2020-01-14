@@ -7,12 +7,9 @@ const SELECTORS = {
     PREMIUM_BANNER: '~premium-banner',
     CHECKLIST_ITEM: '~list-item',
     CREATE_BUTTON: '~create-header-button',
-    CREATE_CHECKLIST_FAB: '~create-checklist-fab',
     CREATE_CHECKLIST_NAME_TEXTFIELD: '~name-your-checklist-input',
     CREATE_CHECKLIST_BUTTON: '~create-checklist-button',
-    BACK_BUTTON:
-    browser.isAndroid ? '//android.view.ViewGroup/android.view.ViewGroup/android.widget.ImageView'
-        : '~header-back',
+    BACK_BUTTON: '~header-back',
 };
 
 class CheckistsListScreen extends AppScreen {
@@ -129,6 +126,9 @@ class CheckistsListScreen extends AppScreen {
     // click a checklist by it's name
         const selector = this.getSelectorForText(checklistToSelect);
         const element = $(selector);
+        if (browser.isIOS) {
+            Gestures.scrollToTop();
+        }
         Gestures.checkIfDisplayedWithScrollDown(element, 3);
         console.log("Selecting checklist '" + checklistToSelect + "'");
         element.click();
@@ -147,6 +147,9 @@ class CheckistsListScreen extends AppScreen {
     waitForListToLoad () {
         this.waitForScreenToLoad();
         for (var x = 1; x <= 20; x++) {
+            if (this.backButton.isDisplayed()) {
+                this.clickBackButton();
+            }
             if (this.checklistItems.length > 0) {
                 break;
             }
@@ -156,11 +159,7 @@ class CheckistsListScreen extends AppScreen {
 
     clickCreateButton () {
         console.log('Clicking [Create] button');
-        if (this.createButton.isDisplayed()) {
-            this.createButton.click();
-        } else {
-            this.createFabButton.click();
-        }
+        this.createButton.click();
     }
 
     createChecklist (newChecklistName) {

@@ -11,18 +11,21 @@ Feature: Basic navigation checklists
     When I select the checklist "Campsite arrival"
     Then the checklist screen displays
     When I complete the task "Site preview"
-      And I navigate back to the dashboard
+      And I navigate back to the list
+    # todo: Then validate the list
+    When I click the "Home" tabbar button
     Then the dashboard shows checklist "Campsite arrival" as "5%" complete
     When I tap checklist "Campsite arrival"
       And complete the checklist
+      And I click the "Home" tabbar button
     Then the dashboard does not show any checklists in progress
 
   @TR(12312729)
   Scenario: Create and delete an empty checklist
     Given I am on the dashboard
-    When I go to checklists
+    When I click the "Checklists" tabbar button
       And create a checklist named "New Checklist"
-    Then the checklist "New Checklist" will be open in edit mode
+    Then the checklist "New Checklist" will be open in edit mode with a new task started
       And the checklist will be empty
     When I finish editing the checklist
       And return to the checklist list page

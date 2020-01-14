@@ -1,9 +1,7 @@
 import { DEFAULT_TIMEOUT } from '../constants';
 
 const SELECTORS = {
-    LOADING_INDICATOR:
-    browser.isAndroid ? '//android.widget.ProgressBar'
-        : '//XCUIElementTypeActivityIndicator[@name="In progress"]',
+    LOADING_INDICATOR: '~loading-indicator',
 };
 
 export default class AppScreen {
@@ -18,14 +16,26 @@ export default class AppScreen {
         this.selectorIndex = selectorIndex;
     }
 
+    // =======
+    // getters
+    // =======
+    get loadingIndicators () {
+        return $$(SELECTORS.LOADING_INDICATOR);
+    }
+
+    // =====================
+    // common screen methods
+    // =====================
+
     /**
      * Wait for the screen to be visible by using it's constructor
      * selector
      *
-     * @param {boolean} isShown
+     * @param {boolean} isShown - true to wait for displayed; false to wait for not displayed
      * @return {boolean}
      */
     waitForIsShown (isShown = true) {
+        this.waitForScreenToLoad();
         if (this.selectorIndex === -1) {
             return $(this.selector).waitForDisplayed(DEFAULT_TIMEOUT, !isShown);
         }
@@ -45,7 +55,18 @@ export default class AppScreen {
         }
     }
 
-    waitForScreenToLoad () {
-        $(SELECTORS.LOADING_INDICATOR).waitForExist(10000, true);
+    /**
+     * Wait for any loading indicators to not be visible
+     *
+     * @param {number} maxTimeToWait - Maximum miliseconds to wait
+     */
+
+    waitForScreenToLoad (maxTimeToWait = DEFAULT_TIMEOUT) {
+        for (var x = 0; x < maxTimeToWait; x = x + 500) {
+            if (this.loadingIndicators.length === 0) {
+                break;
+            }
+            browser.pause(500);
+        }
     }
 }

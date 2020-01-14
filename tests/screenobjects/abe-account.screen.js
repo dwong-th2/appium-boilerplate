@@ -25,24 +25,31 @@ class AccountScreen extends AppScreen {
     get accountNameText () {
         return $(SELECTORS.ACCOUNT_NAME_TEXT);
     }
+
     get profileButton () {
         return $(SELECTORS.PROFILE_BUTTON);
     }
+
     get notificationsButton () {
         return $(SELECTORS.NOTIFICATIONS_BUTTON);
     }
+
     get settingsButton () {
         return $(SELECTORS.SETTINGS_BUTTON);
     }
+
     get tosButton () {
         return $(SELECTORS.TOS_BUTTON);
     }
+
     get privacyButton () {
         return $(SELECTORS.PRIVACY_POLICY_BUTTON);
     }
+
     get signOutButton () {
         return $(SELECTORS.SIGN_OUT_BUTTON);
     }
+
     get versionText () {
         return $(SELECTORS.VERSION_TEXT);
     }

@@ -3,7 +3,6 @@ import LoginScreen from '../../tests/screenobjects/abe-login.screen';
 import WelcomeScreen from '../../tests/screenobjects/abe-welcome.screen';
 import DashboardScreen from '../../tests/screenobjects/abe-dashboard.screen';
 import AccountScreen from '../../tests/screenobjects/abe-account.screen';
-import SideMenu from '../../tests/screenobjects/abe-menu';
 
 const { Given, When, Then } = require('cucumber');
 const { expect } = require('chai');
@@ -19,7 +18,7 @@ Given('I submit my Togo ID', function () {
         if (DashboardScreen.isDisplayed()) {
             // logout if already logged in
             console.log('Already logged in!! Logging out ...');
-            SideMenu.openAccount();
+            DashboardScreen.openAccount();
             AccountScreen.signout();
             break;
         } else {
@@ -61,7 +60,7 @@ When('I supply the automation user credentials', function () {
 });
 
 When('I logout from the app', function () {
-    SideMenu.openAccount();
+    DashboardScreen.openAccount();
     AccountScreen.signout();
 });
 

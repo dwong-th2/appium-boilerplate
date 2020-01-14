@@ -17,9 +17,11 @@ class WelcomeScreen extends AppScreen {
     get createIDButton () {
         return $(SELECTORS.CREATE_TOGO_ID_BUTTON);
     }
+
     get signinWithIDButton () {
         return $(SELECTORS.SIGNIN_WITH_TOGO_ID_BUTTON);
     }
+
     get welcomeCarousel () {
         return $(SELECTORS.WELCOME_CAROUSEL);
     }
